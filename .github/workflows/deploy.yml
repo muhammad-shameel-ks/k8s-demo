@@ -18,7 +18,6 @@ jobs:
         run: |
           kubectl apply -f k8s/deploy.yaml
 
-
       - name: Checkout code
         uses: actions/checkout@v4
 
