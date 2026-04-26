@@ -9,15 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Connect to Tailscale
-        uses: tailscale/github-action@v2
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
-      - name: Deploy to K8s
-        run: |
-          kubectl apply -f k8s/deploy.yaml
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -32,6 +23,11 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/k8s-demo:latest
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Copy repo to VAIO
         uses: appleboy/scp-action@v0.1.7
