@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: k8s-demo
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: k8s-demo
