@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# 🚀 K8s Demo Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React + TypeScript application built with Vite, designed to demonstrate automated CI/CD pipelines to a private home lab via Tailscale.
 
-Currently, two official plugins are available:
+## 🏗️ Architecture & Deployment Flow
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project uses a secure, zero-trust deployment pipeline to push updates from the public internet to a private home server (VAIO).
 
-## React Compiler
+```mermaid
+graph LR
+    subgraph GitHub_Cloud [GitHub Cloud]
+        A[Push to Main] --> B[GitHub Actions]
+    end
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+    subgraph Security_Layer [Zero Trust Network]
+        B -- 🔑 Auth Key --> C((Tailscale Mesh))
+    end
 
-## Expanding the ESLint configuration
+    subgraph Home_Lab [Private Home Lab]
+        C --> D[VAIO Server]
+        D --> E[K8s Cluster]
+        E --> F[k8s-demo Pods]
+    end
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    style B fill:#24292e,color:#fff
+    style C fill:#ff5233,color:#fff
+    style D fill:#007acc,color:#fff
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Deployment Breakdown:
+1.  **🐙 GitHub Actions**: Triggered on every push to the `main` branch.
+2.  **🔑 Tailscale**: The runner authenticates using a Tailscale Auth Key, joining your private mesh network securely.
+3.  **💻 VAIO Server**: The runner communicates directly with your VAIO server's internal IP through the encrypted tunnel.
+4.  **☸️ Kubernetes**: Manifests are applied directly to the cluster, updating the `k8s-demo` service.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+- **Frontend**: [React 19](https://react.dev/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Type Safety**: [TypeScript](https://www.typescriptlang.org/)
+- **Containerization**: [Docker](https://www.docker.com/)
+- **Orchestration**: [Kubernetes](https://kubernetes.io/)
+
+---
+
+## 🚀 Getting Started
+
+### Local Development
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
+
+### Production Build
+```bash
+# Build the application
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+---
+
+## 📦 Kubernetes Configuration
+
+The deployment manifests are located in the `k8s/` directory:
+- `deploy.yaml`: Defines the `Deployment` (2 replicas) and the `LoadBalancer` service on port `3000`.
+
+To apply manually:
+```bash
+kubectl apply -f k8s/deploy.yaml
+```
+
+---
+
+## 🛡️ CI/CD Configuration
+
+The automation is defined in `.github/workflows/deploy.yml`. 
+
+**Required Secrets:**
+- `TAILSCALE_AUTHKEY`: Used to join the private network.
+- `DOCKER_PASSWORD`: (Optional) If pushing to a registry.
+
+---
+
+## License
+MIT
