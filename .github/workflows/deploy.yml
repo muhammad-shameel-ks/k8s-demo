@@ -29,12 +29,21 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/k8s-demo:latest
 
+      - name: Copy repo to VAIO
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.TAILSCALE_IP }}
+          username: mallubeast
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "k8s/deploy.yaml"
+          target: "~/"
+
       - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: 100.87.132.82
+          host: ${{ secrets.TAILSCALE_IP }}
           username: mallubeast
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "${{ github.workspace }}/k8s/deploy.yaml" | xargs cat | kubectl apply -f -
-                        kubectl rollout restart deployment k8s-demo
+            kubectl apply -f ~/k8s/deploy.yaml
+            kubectl rollout restart deployment k8s-demo
