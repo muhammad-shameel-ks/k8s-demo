@@ -32,7 +32,7 @@ jobs:
       - name: Deploy to K3s
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: 192.168.1.33
+          host: minibarchy
           username: mallubeast
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
