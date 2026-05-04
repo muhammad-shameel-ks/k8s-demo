@@ -1,93 +1,55 @@
-# 🚀 K8s Demo Application
+# Portfolio
 
-A modern React + TypeScript application built with Vite, designed to demonstrate automated CI/CD pipelines to a private home lab via Tailscale.
+Personal portfolio website built with [Astro](https://astro.build), React, and Tailwind CSS.
 
-## 🏗️ Architecture & Deployment Flow
+## Tech Stack
 
-This project uses a secure, zero-trust deployment pipeline to push updates from the public internet to a private home server (VAIO).
+- **Framework**: Astro 6.x
+- **UI**: React 19 + Framer Motion
+- **Styling**: Tailwind CSS v4
+- **Backend**: PocketBase
+- **Package Manager**: Bun
 
-```mermaid
-graph LR
-    subgraph GitHub_Cloud [GitHub Cloud]
-        A[Push to Main] --> B[GitHub Actions]
-    end
+## Local Development
 
-    subgraph Security_Layer [Zero Trust Network]
-        B -- 🔑 Auth Key --> C((Tailscale Mesh))
-    end
-
-    subgraph Home_Lab [Private Home Lab]
-        C --> D[VAIO Server]
-        D --> E[K8s Cluster]
-        E --> F[k8s-demo Pods]
-    end
-
-    style B fill:#24292e,color:#fff
-    style C fill:#ff5233,color:#fff
-    style D fill:#007acc,color:#fff
+```sh
+bun install
+bun dev
 ```
 
-### Deployment Breakdown:
-1.  **🐙 GitHub Actions**: Triggered on every push to the `main` branch.
-2.  **🔑 Tailscale**: The runner authenticates using a Tailscale Auth Key, joining your private mesh network securely.
-3.  **💻 VAIO Server**: The runner communicates directly with your VAIO server's internal IP through the encrypted tunnel.
-4.  **☸️ Kubernetes**: Manifests are applied directly to the cluster, updating the `k8s-demo` service.
+Visit [http://localhost:4321](http://localhost:4321)
 
----
+## Build
 
-## 🛠️ Tech Stack
-
-- **Frontend**: [React 19](https://react.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Type Safety**: [TypeScript](https://www.typescriptlang.org/)
-- **Containerization**: [Docker](https://www.docker.com/)
-- **Orchestration**: [Kubernetes](https://kubernetes.io/)
-
----
-
-## 🚀 Getting Started
-
-### Local Development
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+```sh
+bun build
+bun preview
 ```
 
-### Production Build
-```bash
-# Build the application
-npm run build
+## Deployment
 
-# Preview production build
-npm run preview
+This project is containerized with Docker and deployed to Kubernetes.
+
+### Docker Build
+
+```sh
+docker build -t portfolio .
+docker run -p 8080:80 portfolio
 ```
 
----
+### Kubernetes Deploy
 
-## 📦 Kubernetes Configuration
+The `k8s/deploy.yaml` manifest defines a Deployment (1 replica) and LoadBalancer Service (port 3000).
 
-The deployment manifests are located in the `k8s/` directory:
-- `deploy.yaml`: Defines the `Deployment` (2 replicas) and the `LoadBalancer` service on port `3000`.
-
-To apply manually:
-```bash
+```sh
 kubectl apply -f k8s/deploy.yaml
 ```
 
----
+### CI/CD
 
-## 🛡️ CI/CD Configuration
+Pushes to `main` automatically:
+1. Build Docker image
+2. Push to Docker Hub (`mallubeast/k8s-demo:latest`)
+3. Deploy to K3s cluster via Tailscale SSH
 
-The automation is defined in `.github/workflows/deploy.yml`. 
-
-**Required Secrets:**
-- `TAILSCALE_AUTHKEY`: Used to join the private network.
-- `DOCKER_PASSWORD`: (Optional) If pushing to a registry.
-
----
-
-## License
-MIT
+Requires secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`, `TAILSCALE_AUTHKEY`, `SSH_PRIVATE_KEY`, `TAILSCALE_IP`

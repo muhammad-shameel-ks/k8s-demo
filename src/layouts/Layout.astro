@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { 
+	title, 
+	description = "Muhammad Shameel KS — Full-Stack Engineer, DevOps & System Administrator from Kerala. Building production systems, automating everything, and using AI to stay three steps ahead."
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		
+		<!-- Fonts preload for performance -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+		
+		<title>{title}</title>
+		
+		<!-- JSON-LD Structured Data for SEO -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Muhammad Shameel KS",
+				"jobTitle": "Full-Stack Engineer",
+				"url": "https://shameel.barchy.online",
+				"email": "muhammadshameelks@gmail.com",
+				"address": {
+					"@type": "PostalAddress",
+					"addressLocality": "Palakkad",
+					"addressRegion": "Kerala",
+					"addressCountry": "IN"
+				},
+				"sameAs": [
+					"https://github.com/muhammad-shameel-ks",
+					"https://linkedin.com/in/muhammad-shameel-k-s"
+				],
+				"knowsAbout": [
+					"React",
+					"TypeScript",
+					"Kubernetes",
+					"Linux",
+					"DevOps",
+					"AI"
+				]
+			}
+		</script>
+	</head>
+	<body class="bg-bg text-fg relative">
+		<slot />
+	</body>
+</html>

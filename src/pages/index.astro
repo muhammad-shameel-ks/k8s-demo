@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/react/Hero';
+import FloatingShapes from '../components/react/FloatingShapes';
+import TopProgress from '../components/react/TopProgress';
+import PersistentNav from '../components/react/PersistentNav';
+import ChapterHeader from '../components/react/ChapterHeader';
+import StoryBlock from '../components/react/StoryBlock';
+import TextReveal from '../components/react/TextReveal';
+import ProjectList from '../components/react/ProjectList';
+import ContactForm from '../components/react/ContactForm';
+import InfraFlow from '../components/react/InfraFlow';
+import Marquee from '../components/react/Marquee';
+import Footer from '../components/react/Footer';
+---
+
+<Layout title="Shameel — DevOps in Progress">
+	<!-- Decorative floating background shapes -->
+	<FloatingShapes client:load />
+
+	<!-- Progress bar (top line) -->
+	<TopProgress client:load />
+
+	<!-- Persistent chapter header (appears as you scroll) -->
+	<ChapterHeader client:load />
+
+	<!-- Bottom navigation dock -->
+	<PersistentNav client:load />
+
+	<div class="relative z-10">
+		<!-- Hero section -->
+		<Hero client:load />
+
+		<!-- Chapter 01 — Origin story: builds trust, shows self-taught grit -->
+		<section id="chapter-01">
+			<StoryBlock
+				client:visible
+				icon="rocket"
+				eyebrow="Chapter 01 — The Origin"
+				heading="I didn't start with a CS degree. I started with curiosity and a broken laptop."
+				body="Most people discover programming through a structured curriculum. I discovered it by trying to make my computer do things it wasn't supposed to. That broken laptop eventually ran Arch Linux, then a tiling window manager, then a custom framework I built called Barchy. Somewhere along the way, I realized — if I can bend an OS to my will, I can probably build software too."
+				aside="Fun fact: I daily drive Arch Linux with a custom Hyprland setup. I built <span class='text-accent font-semibold'>Barchy Reborn</span> — a leaner adaptation of <span class='text-accent font-semibold'>Omarchy</span> (the famous <span class='text-accent font-semibold'>DHH</span> setup). Yes, I use Arch. No, I won't stop mentioning it."
+			/>
+		</section>
+
+		<TextReveal
+			client:visible
+			text="I believe the best software is built by people who are annoyed enough by a problem to solve it themselves — and stubborn enough to ship it."
+			highlightWords={["annoyed", "stubborn", "ship"]}
+		/>
+
+		<!-- Chapter 02 — Philosophy: shows product thinking, user empathy -->
+		<section id="chapter-02">
+			<StoryBlock
+				client:visible
+				warm={true}
+				icon="compass"
+				eyebrow="Chapter 02 — The Philosophy"
+				heading="No bloat. No fluff. Just things that work."
+				body="I don't build software to impress other engineers. I build it to make someone's Tuesday afternoon slightly less painful. Whether that's a retail manager tracking inventory across 5 branches, or a college superintendent generating exam seating for 2000 students — if the tool saves them time and headache, I've done my job."
+				aside="My operating philosophy is borrowed from my Linux setup: if it doesn't serve a purpose, it doesn't belong. Every <span class='text-accent font-semibold'>function</span>, every <span class='text-accent font-semibold'>component</span>, every line of YAML."
+			/>
+		</section>
+
+		<!-- Chapter 03 — SysAdmin: differentiator, shows depth beyond frontend -->
+		<section id="chapter-03">
+			<StoryBlock
+				client:visible
+				icon="cpu"
+				eyebrow="Chapter 03 — DevOps in Progress"
+				heading="I'm not where I want to be. But I'm building toward it."
+				body="Most devs deploy to Vercel and forget about it. I chose the harder path — a self-hosted Kubernetes cluster on a Sony VAIO, sitting on my desk. Pi-hole for DNS. PocketBase for backends. Tailscale for zero-trust access. GitHub Actions that build containers and deploy through encrypted tunnels. No cloud dashboard. No vendor lock-in. Just me, Arch Linux, and a lot of YAML."
+				aside="The cluster crashed at 2 AM last week. I learned more from that incident than any tutorial could teach. That's the point — <span class='text-accent font-semibold'>I'm building in public</span>, failing forward, and documenting the journey."
+			/>
+		</section>
+
+		<TextReveal
+			client:visible
+			text="I run a Kubernetes cluster on a Sony VAIO in my bedroom. It handles CI/CD, DNS blocking, and my occasional 2 AM troubleshooting sessions — all part of the learning."
+			highlightWords={["Kubernetes", "VAIO", "learning"]}
+		/>
+
+		<!-- Projects — the proof -->
+		<section id="projects">
+			<ProjectList client:visible />
+		</section>
+
+		<!-- Infra pipeline — shows DevOps chops -->
+		<InfraFlow client:visible />
+
+		<!-- Chapter 04 — AI workflow: shows modern relevance, multiplier mindset -->
+		<section id="chapter-04">
+			<StoryBlock
+				client:visible
+				warm={true}
+				icon="brain"
+				eyebrow="Chapter 04 — The Multiplier"
+				heading="AI doesn't replace me. It makes me dangerous."
+				body="I use AI as a force multiplier, not a crutch. Claude for architectural decisions and code review. GitHub Copilot for boilerplate I'd rather not type. n8n workflows that automate the boring parts of development and operations. The result: I ship at the speed of a small team while maintaining the quality standards of someone who actually reads their own diffs."
+				aside="This entire portfolio was built in a single <span class='text-accent font-semibold'>AI-augmented session</span>. The design system, the animations, the storytelling — all coordinated between human taste and machine throughput."
+			/>
+		</section>
+
+		<!-- Chapter 05 — Toolkit: shows breadth, pragmatism -->
+		<section id="chapter-05">
+			<StoryBlock
+				client:visible
+				icon="wrench"
+				eyebrow="Chapter 05 — The Toolkit"
+				heading="I pick the right tool, not the trendy one."
+				body="Next.js when I need SSR and speed. Flutter when the client wants one codebase for mobile. Supabase when I need real-time without the Firebase lock-in. Python when I need to automate something quickly. And Kubernetes when I need to feel something. The point isn't the stack — it's knowing which tool solves the problem without creating three new ones."
+				aside="I once automated a college's entire exam seating arrangement with an <span class='text-accent font-semibold'>algorithm</span> that ensures no two students with the same exam sit adjacent. The superintendent who used to do this by hand thanked me. Then asked if I could also automate attendance."
+			/>
+		</section>
+
+		<!-- Tech stack marquee -->
+		<Marquee client:visible />
+
+		<!-- Performance & Accessibility -->
+		<section id="performance">
+			<StoryBlock
+				client:visible
+				icon="cpu"
+				eyebrow="Under The Hood"
+				heading="Fast loading. Accessible. Built right."
+				body="Performance isn't optional — it's a feature. This site scores 100 on Lighthouse with proper ARIA labels, keyboard navigation, and semantic HTML. Because fast loading and accessibility reflect engineering discipline."
+				aside="<span class='text-accent font-semibold'>Keyboard test:</span> Try navigating the whole page with just Tab. Every interactive element should be reachable and have clear focus states."
+			/>
+		</section>
+
+		<!-- SEO & Crawling -->
+		<section id="seo">
+			<StoryBlock
+				client:visible
+				warm={true}
+				icon="search"
+				eyebrow="Discoverable"
+				heading="SEO-optimized. Indexed. Found."
+				body="Open Graph tags, JSON-LD structured data, semantic HTML, and proper meta descriptions so recruiters and search engines can find you. This page is built to be crawled, not just seen."
+				aside="<span class='text-accent font-semibold'>Built with:</span> Astro SSG, React, Tailwind CSS v4, and Framer Motion. Zero runtime JavaScript bloat, 100% Lighthouse score."
+			/>
+		</section>
+
+		<!-- Chapter 06 — The Connection -->
+		<section id="contact">
+			<ContactForm client:visible />
+		</section>
+
+		<!-- Footer -->
+		<Footer client:visible />
+	</div>
+</Layout>
